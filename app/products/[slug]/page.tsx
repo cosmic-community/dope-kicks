@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getProductBySlug, getReviewsByProduct } from '@/lib/cosmic';
+import { getProductBySlug, getReviewsByProduct, resolveSelectValue } from '@/lib/cosmic';
 import StarRating from '@/components/StarRating';
 import ReviewCard from '@/components/ReviewCard';
 
@@ -38,8 +38,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   const featuredImage = product.metadata?.featured_image;
   const gallery = product.metadata?.gallery;
   const category = product.metadata?.category;
-  const inventoryStatus = product.metadata?.inventory_status;
-  const condition = product.metadata?.condition;
+  // Changed: Use resolveSelectValue to safely extract string from select-dropdown metafields
+  const inventoryStatus = resolveSelectValue(product.metadata?.inventory_status);
+  const condition = resolveSelectValue(product.metadata?.condition);
   const sku = product.metadata?.sku;
 
   const averageRating =

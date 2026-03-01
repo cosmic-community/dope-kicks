@@ -9,6 +9,21 @@ export const cosmic = createBucketClient({
   apiEnvironment: 'staging',
 });
 
+// ─── Helpers ────────────────────────────────────────────
+
+/**
+ * Safely extract a string value from a Cosmic metafield that may be
+ * a plain string OR a select-dropdown object with {key, value} shape.
+ */
+export function resolveSelectValue(
+  field: string | { key: string; value: string } | undefined | null
+): string | undefined {
+  if (!field) return undefined;
+  if (typeof field === 'string') return field;
+  if (typeof field === 'object' && 'value' in field) return field.value;
+  return undefined;
+}
+
 // ─── Products ────────────────────────────────────────────
 
 export async function getProducts(): Promise<Product[]> {

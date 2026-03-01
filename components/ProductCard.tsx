@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Product } from '@/types';
+import { resolveSelectValue } from '@/lib/cosmic';
 
 interface ProductCardProps {
   product: Product;
@@ -9,8 +10,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const name = product.metadata?.name || product.title;
   const price = product.metadata?.price;
   const featuredImage = product.metadata?.featured_image;
-  const inventoryStatus = product.metadata?.inventory_status;
-  const condition = product.metadata?.condition;
+  // Changed: Use resolveSelectValue to safely extract string from select-dropdown metafields
+  const inventoryStatus = resolveSelectValue(product.metadata?.inventory_status);
+  const condition = resolveSelectValue(product.metadata?.condition);
   const category = product.metadata?.category;
 
   function getStatusBadge(status?: string) {
