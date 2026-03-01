@@ -11,11 +11,13 @@ export default function StarRating({ rating, size = 'md' }: StarRatingProps) {
   };
 
   const starSize = sizeClasses[size];
+  // Changed: Ensure rating is always a number to prevent "toFixed is not a function" error
+  const numericRating = Number(rating) || 0;
 
   return (
-    <div className="flex items-center gap-0.5" aria-label={`${rating.toFixed(1)} out of 5 stars`}>
+    <div className="flex items-center gap-0.5" aria-label={`${numericRating.toFixed(1)} out of 5 stars`}>
       {Array.from({ length: 5 }, (_, index) => {
-        const filled = index < Math.round(rating);
+        const filled = index < Math.round(numericRating);
         return (
           <svg
             key={index}

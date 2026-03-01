@@ -80,6 +80,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <h3 className="text-white font-semibold text-sm leading-snug group-hover:text-brand-accent-light transition-colors line-clamp-2 mb-2">
           {name}
         </h3>
+        {/* Changed: Wrap price in Number() to ensure toLocaleString works safely */}
         {price !== undefined && price !== null && (
           <p className="text-lg font-bold text-white">
             ${Number(price).toLocaleString('en-US', { minimumFractionDigits: 2 })}

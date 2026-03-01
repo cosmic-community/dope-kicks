@@ -43,9 +43,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   const condition = resolveSelectValue(product.metadata?.condition);
   const sku = product.metadata?.sku;
 
+  // Changed: Ensure rating values are converted to numbers before arithmetic
   const averageRating =
     reviews.length > 0
-      ? reviews.reduce((sum, r) => sum + (r.metadata?.rating || 0), 0) / reviews.length
+      ? reviews.reduce((sum, r) => sum + (Number(r.metadata?.rating) || 0), 0) / reviews.length
       : 0;
 
   function getStatusColor(status?: string): string {
@@ -153,6 +154,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             )}
 
             {/* Price */}
+            {/* Changed: Wrap price in Number() to ensure toLocaleString works safely */}
             {price !== undefined && price !== null && (
               <p className="text-4xl font-bold text-white mb-6">
                 ${Number(price).toLocaleString('en-US', { minimumFractionDigits: 2 })}

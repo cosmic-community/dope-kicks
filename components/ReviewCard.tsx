@@ -9,7 +9,8 @@ interface ReviewCardProps {
 
 export default function ReviewCard({ review, showProduct = true }: ReviewCardProps) {
   const reviewerName = review.metadata?.reviewer_name || 'Anonymous';
-  const rating = review.metadata?.rating || 0;
+  // Changed: Ensure rating is a number to prevent toFixed errors in StarRating
+  const rating = Number(review.metadata?.rating) || 0;
   const reviewText = review.metadata?.review_text || '';
   const product = review.metadata?.product;
   const verifiedPurchase = review.metadata?.verified_purchase;
@@ -75,6 +76,7 @@ export default function ReviewCard({ review, showProduct = true }: ReviewCardPro
               <p className="text-white text-sm font-medium group-hover/product:text-brand-accent transition-colors">
                 {product.metadata?.name || product.title}
               </p>
+              {/* Changed: Wrap price in Number() to ensure toLocaleString works safely */}
               {product.metadata?.price !== undefined && product.metadata?.price !== null && (
                 <p className="text-brand-muted text-xs">
                   ${Number(product.metadata.price).toLocaleString('en-US', {

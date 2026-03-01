@@ -15,8 +15,9 @@ export default function LatestReviews({ reviews }: LatestReviewsProps) {
   // Show up to 3 latest reviews
   const latest = reviews.slice(0, 3);
 
+  // Changed: Ensure rating values are converted to numbers before arithmetic
   const averageRating =
-    reviews.reduce((sum, r) => sum + (r.metadata?.rating || 0), 0) / reviews.length;
+    reviews.reduce((sum, r) => sum + (Number(r.metadata?.rating) || 0), 0) / reviews.length;
 
   return (
     <section className="bg-brand-dark py-20">
@@ -33,7 +34,8 @@ export default function LatestReviews({ reviews }: LatestReviewsProps) {
             <div className="flex items-center gap-3 mt-3">
               <StarRating rating={averageRating} />
               <span className="text-brand-muted-light text-sm">
-                {averageRating.toFixed(1)} average from {reviews.length} review
+                {/* Changed: Use Number() to ensure toFixed works on a number */}
+                {Number(averageRating).toFixed(1)} average from {reviews.length} review
                 {reviews.length === 1 ? '' : 's'}
               </span>
             </div>
